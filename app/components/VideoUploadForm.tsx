@@ -72,69 +72,79 @@ export default function VideoUploadForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="form-control">
-        <label className="label">Title</label>
-        <input
-          type="text"
-          className={`input input-bordered ${
-            errors.title ? "input-error" : ""
-          }`}
-          {...register("title", { required: "Title is required" })}
-        />
-        {errors.title && (
-          <span className="text-error text-sm mt-1">
-            {errors.title.message}
-          </span>
-        )}
-      </div>
+    <form
+  onSubmit={handleSubmit(onSubmit)}
+  className="max-w-xl mx-auto bg-gray-900 text-gray-100 p-8 rounded-2xl shadow-md space-y-6"
+>
+  <div className="form-control w-full">
+    <label className="label text-sm font-medium text-gray-300 mb-1">
+      Title
+    </label>
+    <input
+      type="text"
+      className={`input input-bordered w-full bg-gray-800 text-white border-gray-700 focus:border-primary focus:outline-none ${
+        errors.title ? "border-red-500" : ""
+      }`}
+      {...register("title", { required: "Title is required" })}
+    />
+    {errors.title && (
+      <span className="text-red-500 text-sm mt-1">
+        {errors.title.message}
+      </span>
+    )}
+  </div>
 
-      <div className="form-control">
-        <label className="label">Description</label>
-        <textarea
-          className={`textarea textarea-bordered h-24 ${
-            errors.description ? "textarea-error" : ""
-          }`}
-          {...register("description", { required: "Description is required" })}
-        />
-        {errors.description && (
-          <span className="text-error text-sm mt-1">
-            {errors.description.message}
-          </span>
-        )}
-      </div>
+  <div className="form-control w-full">
+    <label className="label text-sm font-medium text-gray-300 mb-1">
+      Description
+    </label>
+    <textarea
+      className={`textarea textarea-bordered h-28 w-full resize-none bg-gray-800 text-white border-gray-700 focus:border-primary focus:outline-none ${
+        errors.description ? "border-red-500" : ""
+      }`}
+      {...register("description", { required: "Description is required" })}
+    />
+    {errors.description && (
+      <span className="text-red-500 text-sm mt-1">
+        {errors.description.message}
+      </span>
+    )}
+  </div>
 
-      <div className="form-control">
-        <label className="label">Upload Video</label>
-        <FileUpload
-          fileType="video"
-          onSuccess={handleUploadSuccess}
-          onProgress={handleUploadProgress}
+  <div className="form-control w-full">
+    <label className="label text-sm font-medium text-gray-300 mb-2">
+      Upload Video
+    </label>
+    <FileUpload
+      fileType="video"
+      onSuccess={handleUploadSuccess}
+      onProgress={handleUploadProgress}
+    />
+    {uploadProgress > 0 && (
+      <div className="w-full bg-gray-700 rounded-full h-2.5 mt-3">
+        <div
+          className="bg-primary h-2.5 rounded-full transition-all duration-300"
+          style={{ width: `${uploadProgress}%` }}
         />
-        {uploadProgress > 0 && (
-          <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-            <div
-              className="bg-primary h-2.5 rounded-full transition-all duration-300"
-              style={{ width: `${uploadProgress}%` }}
-            />
-          </div>
-        )}
       </div>
+    )}
+  </div>
 
-      <button
-        type="submit"
-        className="btn btn-primary btn-block"
-        disabled={loading || !uploadProgress}
-      >
-        {loading ? (
-          <>
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            Publishing Video...
-          </>
-        ) : (
-          "Publish Video"
-        )}
-      </button>
-    </form>
+  <button
+    type="submit"
+    className="btn btn-primary btn-block mt-4"
+    disabled={loading || !uploadProgress}
+  >
+    {loading ? (
+      <>
+        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+        Publishing Video...
+      </>
+    ) : (
+      "Publish Video"
+    )}
+  </button>
+</form>
+
   );
 }
