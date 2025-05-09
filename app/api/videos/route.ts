@@ -39,7 +39,8 @@ export async function POST(request: NextRequest) {
       !body.title ||
       !body.description ||
       !body.videoUrl ||
-      !body.thumbnailUrl
+      !body.thumbnailUrl ||
+      !body.genres
     ) {
       return NextResponse.json(
         { error: "Missing required fields" },

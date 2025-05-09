@@ -14,7 +14,7 @@ export async function GET() {
         
     } catch (error) {
         return NextResponse.json(
-            {error: "ImageKit Auth Failed."},
+            {message: "ImageKit Auth Failed.", error},
             {status: 500}
         )
     }

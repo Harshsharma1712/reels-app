@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 Reels App
 
-## Getting Started
+A full-stack **Reels App** built with **Next.js** to demonstrate seamless handling and streaming of video data using **ImageKit**, along with **MongoDB** for database storage and **NextAuth.js** for secure authentication.
 
-First, run the development server:
+## 🔥 Features
+
+- 📹 Upload and play short-form video reels
+- ☁️ Efficient video storage & delivery via **ImageKit**
+- 🔐 Authentication with **NextAuth.js**
+- 📦 Backend powered by **MongoDB** and Mongoose
+- 🧑‍💼 User profiles and protected routes
+- ⚡ Optimized performance with server-side rendering (SSR)
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js (App Router)
+- **Backend**: API Routes with Next.js
+- **Database**: MongoDB + Mongoose
+- **Authentication**: NextAuth.js
+- **Video Storage**: ImageKit
+- **Styling**: Tailwind CSS (or your choice)
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/reels-app.git
+cd reels-app
+```
+### 2. Install Dependencies
+```bash
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Create Environment Variables
+```bash
+MONGODB_URI=your_mongodb_connection_string
+NEXTAUTH_SECRET=your_next_auth_secret
+NEXT_PUBLIC_URL_ENDPOINT=your_next_public_url_endpoint
+NEXT_PUBLIC_PUBLIC_KEY=your_next_public_key
+IMAGEKIT_PRIVATE_KEY=your_image_kit_private_key
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Run the app
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧠 Learnings
+- Handling large video files with CDNs like ImageKit
 
-## Learn More
+- Integrating social login using NextAuth.js
 
-To learn more about Next.js, take a look at the following resources:
+- Managing user sessions securely in SSR apps
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Structuring a full-stack video-sharing platform

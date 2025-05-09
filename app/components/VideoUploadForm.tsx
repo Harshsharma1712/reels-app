@@ -13,6 +13,7 @@ interface VideoFormData {
   description: string;
   videoUrl: string;
   thumbnailUrl: string;
+  genres: string;
 }
 
 export default function VideoUploadForm() {
@@ -31,6 +32,7 @@ export default function VideoUploadForm() {
       description: "",
       videoUrl: "",
       thumbnailUrl: "",
+      genres: ""
     },
   });
 
@@ -93,6 +95,24 @@ export default function VideoUploadForm() {
       </span>
     )}
   </div>
+
+  <div className="form-control w-full">
+  <label className="label text-sm font-medium text-gray-300 mb-1">
+    Genres
+  </label>
+  <input
+    type="text"
+    className={`input input-bordered w-full bg-gray-800 text-white border-gray-700 focus:border-primary focus:outline-none ${
+      errors.genres ? "border-red-500" : ""
+    }`}
+    {...register("genres", { required: "Genres are required" })}
+  />
+  {errors.genres && (
+    <span className="text-red-500 text-sm mt-1">
+      {errors.genres.message}
+    </span>
+  )}
+</div>
 
   <div className="form-control w-full">
     <label className="label text-sm font-medium text-gray-300 mb-1">

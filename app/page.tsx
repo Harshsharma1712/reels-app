@@ -5,6 +5,7 @@ import VideoFeed from "./components/VideoFeed";
 import { IVideo } from "@/models/Video";
 import { apiClient } from "@/lib/api-client";
 
+
 export default function Home() {
   const [videos, setVideos] = useState<IVideo[]>([]);
 
@@ -23,7 +24,7 @@ export default function Home() {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">ImageKit ReelsPro</h1>
+      <h1 className="text-3xl font-bold mb-8">Rells Pro Videos</h1>
       <VideoFeed videos={videos} />
     </main>
   );
