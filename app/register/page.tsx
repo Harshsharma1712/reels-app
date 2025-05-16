@@ -2,29 +2,29 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNotification } from "../components/Notification";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { useNotification } from "../components/Notification";
 
 export default function Register() {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
   const { showNotification } = useNotification();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      showNotification("Passwords do not match", "error");
-      return;
-    }
 
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, username }),
       });
 
       const data = await res.json();
@@ -44,61 +44,58 @@ export default function Register() {
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Register</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="email" className="block mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full px-3 py-2 border rounded"
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="block mb-1">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full px-3 py-2 border rounded"
-          />
-        </div>
-        <div>
-          <label htmlFor="confirmPassword" className="block mb-1">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            className="w-full px-3 py-2 border rounded"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-          Register
-        </button>
-        <p className="text-center mt-4">
-          Already have an account?{" "}
-          <Link href="/login" className="text-blue-500 hover:text-blue-600">
-            Login
-          </Link>
-        </p>
-      </form>
+    <div className="flex justify-center items-center min-h-screen bg-muted">
+      <Card className="w-full max-w-md shadow-xl">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl">Create an Account</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your email"
+              />
+            </div>
+            <div>
+              <Label htmlFor="email">Username</Label>
+              <Input
+                type="username"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder="Enter your Username"
+              />
+            </div>
+            <div>
+              <Label htmlFor="password">Password</Label>
+              <Input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Enter your password"
+              />
+            </div>
+            <Button type="submit" className="w-full">
+              Register
+            </Button>
+          </form>
+          <p className="text-sm text-center mt-4">
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary hover:underline">
+              Login
+            </Link>
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { IKUpload } from "imagekitio-next";
 import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
-import { useState } from "react";
 import { Loader2 } from "lucide-react";
+
+import { cn } from "@/lib/utils"; // if you use utility classnames
 
 interface FileUploadProps {
   onSuccess: (res: IKUploadResponse) => void;
@@ -74,21 +76,31 @@ export default function FileUpload({
         onSuccess={handleSuccess}
         onUploadStart={handleStartUpload}
         onUploadProgress={handleProgress}
-        accept={fileType === "video" ? "video/*" : "image/*"}
-        className="file-input file-input-bordered w-full"
         validateFile={validateFile}
         useUniqueFileName={true}
         folder={fileType === "video" ? "/videos" : "/images"}
+        className={cn(
+          "w-full px-4 py-2 text-sm border border-input rounded-xl bg-background",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+          "file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0",
+          "file:text-sm file:font-medium file:bg-muted file:text-muted-foreground",
+          "hover:file:bg-muted/80 transition"
+        )}
+        accept={fileType === "video" ? "video/*" : "image/*"}
       />
 
       {uploading && (
-        <div className="flex items-center gap-2 text-sm text-primary">
+        <div className="flex items-center gap-2 text-sm text-primary animate-pulse">
           <Loader2 className="w-4 h-4 animate-spin" />
           <span>Uploading...</span>
         </div>
       )}
 
-      {error && <div className="text-error text-sm">{error}</div>}
+      {error && (
+        <div className="text-sm text-destructive font-medium">
+          {error}
+        </div>
+      )}
     </div>
   );
 }

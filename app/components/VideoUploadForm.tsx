@@ -8,6 +8,17 @@ import { useNotification } from "./Notification";
 import { apiClient } from "@/lib/api-client";
 import FileUpload from "./FileUpload";
 
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
 interface VideoFormData {
   title: string;
   description: string;
@@ -32,7 +43,7 @@ export default function VideoUploadForm() {
       description: "",
       videoUrl: "",
       thumbnailUrl: "",
-      genres: ""
+      genres: "",
     },
   });
 
@@ -57,7 +68,6 @@ export default function VideoUploadForm() {
       await apiClient.createVideo(data);
       showNotification("Video published successfully!", "success");
 
-      // Reset form after successful submission
       setValue("title", "");
       setValue("description", "");
       setValue("videoUrl", "");
@@ -74,97 +84,97 @@ export default function VideoUploadForm() {
   };
 
   return (
-    <form
-  onSubmit={handleSubmit(onSubmit)}
-  className="max-w-xl mx-auto bg-gray-900 text-gray-100 p-8 rounded-2xl shadow-md space-y-6"
->
-  <div className="form-control w-full">
-    <label className="label text-sm font-medium text-gray-300 mb-1">
-      Title
-    </label>
-    <input
-      type="text"
-      className={`input input-bordered w-full bg-gray-800 text-white border-gray-700 focus:border-primary focus:outline-none ${
-        errors.title ? "border-red-500" : ""
-      }`}
-      {...register("title", { required: "Title is required" })}
-    />
-    {errors.title && (
-      <span className="text-red-500 text-sm mt-1">
-        {errors.title.message}
-      </span>
-    )}
-  </div>
+    <div className="flex justify-center items-center min-h-screen bg-muted py-10">
+      <Card className="w-full max-w-2xl shadow-xl">
+        <CardHeader>
+          <CardTitle className="text-2xl text-center">Upload New Video</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Title */}
+            <div>
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                {...register("title", { required: "Title is required" })}
+                placeholder="Enter video title"
+              />
+              {errors.title && (
+                <p className="text-sm text-destructive mt-1">
+                  {errors.title.message}
+                </p>
+              )}
+            </div>
 
-  <div className="form-control w-full">
-  <label className="label text-sm font-medium text-gray-300 mb-1">
-    Genres
-  </label>
-  <input
-    type="text"
-    className={`input input-bordered w-full bg-gray-800 text-white border-gray-700 focus:border-primary focus:outline-none ${
-      errors.genres ? "border-red-500" : ""
-    }`}
-    {...register("genres", { required: "Genres are required" })}
-  />
-  {errors.genres && (
-    <span className="text-red-500 text-sm mt-1">
-      {errors.genres.message}
-    </span>
-  )}
-</div>
+            {/* Genres */}
+            <div>
+              <Label htmlFor="genres">Genres</Label>
+              <Input
+                id="genres"
+                {...register("genres", { required: "Genres are required" })}
+                placeholder="e.g. Music, Education"
+              />
+              {errors.genres && (
+                <p className="text-sm text-destructive mt-1">
+                  {errors.genres.message}
+                </p>
+              )}
+            </div>
 
-  <div className="form-control w-full">
-    <label className="label text-sm font-medium text-gray-300 mb-1">
-      Description
-    </label>
-    <textarea
-      className={`textarea textarea-bordered h-28 w-full resize-none bg-gray-800 text-white border-gray-700 focus:border-primary focus:outline-none ${
-        errors.description ? "border-red-500" : ""
-      }`}
-      {...register("description", { required: "Description is required" })}
-    />
-    {errors.description && (
-      <span className="text-red-500 text-sm mt-1">
-        {errors.description.message}
-      </span>
-    )}
-  </div>
+            {/* Description */}
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                {...register("description", {
+                  required: "Description is required",
+                })}
+                placeholder="Enter video description"
+                rows={5}
+              />
+              {errors.description && (
+                <p className="text-sm text-destructive mt-1">
+                  {errors.description.message}
+                </p>
+              )}
+            </div>
 
-  <div className="form-control w-full">
-    <label className="label text-sm font-medium text-gray-300 mb-2">
-      Upload Video
-    </label>
-    <FileUpload
-      fileType="video"
-      onSuccess={handleUploadSuccess}
-      onProgress={handleUploadProgress}
-    />
-    {uploadProgress > 0 && (
-      <div className="w-full bg-gray-700 rounded-full h-2.5 mt-3">
-        <div
-          className="bg-primary h-2.5 rounded-full transition-all duration-300"
-          style={{ width: `${uploadProgress}%` }}
-        />
-      </div>
-    )}
-  </div>
+            {/* Upload Section */}
+            <div>
+              <Label>Upload Video</Label>
+              <FileUpload
+                fileType="video"
+                onSuccess={handleUploadSuccess}
+                onProgress={handleUploadProgress}
+              />
+              {uploadProgress > 0 && (
+                <div className="w-full bg-gray-200 rounded-full h-2.5 mt-3">
+                  <div
+                    className="bg-primary h-2.5 rounded-full transition-all duration-300"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+              )}
+            </div>
 
-  <button
-    type="submit"
-    className="btn btn-primary btn-block mt-4"
-    disabled={loading || !uploadProgress}
-  >
-    {loading ? (
-      <>
-        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-        Publishing Video...
-      </>
-    ) : (
-      "Publish Video"
-    )}
-  </button>
-</form>
-
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading || !uploadProgress}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Publishing Video...
+                </>
+              ) : (
+                "Publish Video"
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

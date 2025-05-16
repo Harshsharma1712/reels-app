@@ -6,11 +6,11 @@ export async function POST(request: NextRequest) {
 
     try {
 
-        const { email, password } = await request.json()
+        const { email, password, username } = await request.json()
 
-        if (!email || !password) {
+        if (!email || !password || !username) {
             return NextResponse.json(
-                { error: "Email and password are required." },
+                { error: "Email, password and Username are required." },
                 { status: 400 }
             )
         }
@@ -25,8 +25,17 @@ export async function POST(request: NextRequest) {
                 { status: 400 }
             )
         }
+
+        const existingUsername = await User.findOne({username})
+
+        if (existingUsername) {
+            return NextResponse.json(
+                { error: "Username already registered." },
+                { status: 400 }
+            )
+        }
         
-        await User.create( {email, password} )
+        await User.create( {email, password, username} )
 
         return NextResponse.json(
             { message: "User registered successfully." },

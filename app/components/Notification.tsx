@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+} from "react";
+import { CheckCircle, Info, AlertTriangle, XCircle } from "lucide-react";
+import { cn } from "@/lib/utils"; // optional class merge helper
 
 type NotificationType = "success" | "error" | "warning" | "info";
 
@@ -30,10 +37,17 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   return (
     <NotificationContext.Provider value={{ showNotification }}>
       {children}
+
       {notification && (
-        <div className="toast toast-bottom toast-end z-[100]">
-          <div className={`alert ${getAlertClass(notification.type)}`}>
-            <span>{notification.message}</span>
+        <div className="fixed bottom-4 right-4 z-[100] flex flex-col items-end space-y-2">
+          <div
+            className={cn(
+              "flex items-center gap-3 p-4 text-sm rounded-2xl shadow-lg animate-slide-in fade-in",
+              getAlertStyles(notification.type)
+            )}
+          >
+            {getIcon(notification.type)}
+            <span className="font-medium">{notification.message}</span>
           </div>
         </div>
       )}
@@ -41,24 +55,38 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   );
 }
 
-function getAlertClass(type: NotificationType): string {
+function getAlertStyles(type: NotificationType): string {
   switch (type) {
     case "success":
-      return "alert-success";
+      return "bg-green-100 text-green-800";
     case "error":
-      return "alert-error";
+      return "bg-red-100 text-red-800";
     case "warning":
-      return "alert-warning";
+      return "bg-yellow-100 text-yellow-800";
     case "info":
-      return "alert-info";
     default:
-      return "alert-info";
+      return "bg-blue-100 text-blue-800";
+  }
+}
+
+function getIcon(type: NotificationType) {
+  const iconProps = { className: "w-5 h-5" };
+  switch (type) {
+    case "success":
+      return <CheckCircle {...iconProps} />;
+    case "error":
+      return <XCircle {...iconProps} />;
+    case "warning":
+      return <AlertTriangle {...iconProps} />;
+    case "info":
+    default:
+      return <Info {...iconProps} />;
   }
 }
 
 export function useNotification() {
   const context = useContext(NotificationContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error(
       "useNotification must be used within a NotificationProvider"
     );
